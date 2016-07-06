@@ -29,4 +29,19 @@ RSpec.describe "performing attacks" do
       expect(bowser).to be_dead
     end
   end
+
+  context "multiple points of damage" do
+    let(:mario) { BattleLogic::Character.new(attack_rating: 2) }
+    let(:bowser) { BattleLogic::Character.new(max_health: 3) }
+
+    it "does not kill the character after one hit" do
+      mario.attack(bowser)
+      expect(bowser).to be_alive
+    end
+
+    it "kills the character after two hits" do
+      2.times { mario.attack(bowser) }
+      expect(bowser).to be_dead
+    end
+  end
 end
