@@ -14,4 +14,19 @@ RSpec.describe "performing attacks" do
       expect(goomba).to be_dead
     end
   end
+
+  context "multi-hit kills" do
+    let(:mario) { BattleLogic::Character.new }
+    let(:bowser) { BattleLogic::Character.new(max_health: 3) }
+
+    it "does not kill the character after two hits" do
+      2.times { mario.attack(bowser) }
+      expect(bowser).to be_alive
+    end
+
+    it "kills the character after three hits" do
+      3.times { mario.attack(bowser) }
+      expect(bowser).to be_dead
+    end
+  end
 end
