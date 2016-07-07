@@ -15,6 +15,10 @@ module BattleLogic
       expect(subject.attack_rating).to eq(1)
     end
 
+    it "has defense rating 0 by default" do
+      expect(subject.defense_rating).to eq(0)
+    end
+
     it "can be configured with a max health" do
       subject = described_class.new(max_health:2)
       expect(subject.max_health).to eq(2)
@@ -28,6 +32,11 @@ module BattleLogic
     it "can be configured with an attack rating" do
       subject = described_class.new(attack_rating:2)
       expect(subject.attack_rating).to eq(2)
+    end
+
+    it "can be configured with a defense rating" do
+      subject = described_class.new(defense_rating:1)
+      expect(subject.defense_rating).to eq(1)
     end
 
     it "is alive by default" do
@@ -44,6 +53,18 @@ module BattleLogic
       subject = described_class.new(max_health:3)
       subject.receive_damage!(2)
       expect(subject.current_health).to eq(1)
+    end
+
+    it "subtracts defense rating from the damage it receives" do
+      subject = described_class.new(max_health:3, defense_rating: 1)
+      subject.receive_damage!(2)
+      expect(subject.current_health).to eq(2)
+    end
+
+    it "does not allow damage less than zero" do
+      subject = described_class.new(max_health:3, defense_rating: 2)
+      subject.receive_damage!(1)
+      expect(subject.current_health).to eq(3)
     end
 
     it "cannot have current health less than zero" do
