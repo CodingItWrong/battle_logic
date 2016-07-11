@@ -17,11 +17,7 @@ module BattleLogic
     end
 
     def receive_damage!(damage = 1)
-      @current_health = min_zero(current_health - damage_after_defense(damage))
-    end
-
-    def attack(defender)
-      defender.receive_damage!(attack_rating)
+      @current_health = min_zero(current_health - damage)
     end
 
     private
