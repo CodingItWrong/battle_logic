@@ -26,10 +26,6 @@ module BattleLogic
 
     private
 
-    def damage_after_defense(damage)
-      min_zero(damage - defense_rating)
-    end
-
     def min_zero(num)
       [num, 0].max
     end
