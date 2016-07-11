@@ -59,4 +59,33 @@ RSpec.describe "performing attacks" do
       expect(bowser).to be_dead
     end
   end
+
+  # attack_rating * (0.9..1.0) * ((255-defense_rating) / 256) + 1
+  context "random damage algorithm" do
+    context "similarly-leveled" do
+      let(:terra) { BattleLogic::Character.new(attack_rating: 150) }
+      let(:kefka) { BattleLogic::Character.new(defense_rating: 150, max_health: 9999) }
+
+      it "random damage within a range" do
+        10.times do
+          expect {
+            terra.attack(kefka)
+          }.to change { kefka.current_health }.by( a_value_between(-63, -56) )
+        end
+      end
+    end
+
+    context "outleveled" do
+      let(:terra) { BattleLogic::Character.new(attack_rating: 150) }
+      let(:kefka) { BattleLogic::Character.new(defense_rating: 255, max_health: 9999) }
+
+      it "does 1 damage, not 0" do
+        10.times do
+          expect {
+            terra.attack(kefka)
+          }.to change { kefka.current_health }.by(-1)
+        end
+      end
+    end
+  end
 end
