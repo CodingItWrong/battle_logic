@@ -57,7 +57,6 @@ RSpec.describe "performing attacks" do
     end
   end
 
-  # attack_rating * (0.9..1.0) * ((256-defense_rating) / 256) + 1
   context "random damage algorithm" do
 
     let(:factory) { BattleLogic::Factory.new(attack_action: BattleLogic::RandomAttack) }
@@ -71,19 +70,6 @@ RSpec.describe "performing attacks" do
           expect {
             terra.attack(kefka)
           }.to change { kefka.current_health }.by( a_value_between(-64, -56) )
-        end
-      end
-    end
-
-    context "outleveled" do
-      let(:terra) { factory.character(attack_rating: 150) }
-      let(:kefka) { factory.character(defense_rating: 256, max_health: 9999) }
-
-      it "does 1 damage, not 0" do
-        10.times do
-          expect {
-            terra.attack(kefka)
-          }.to change { kefka.current_health }.by(-1)
         end
       end
     end
