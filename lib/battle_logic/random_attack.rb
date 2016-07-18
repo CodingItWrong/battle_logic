@@ -8,12 +8,12 @@ module BattleLogic
     attr_reader :attacker, :defender
 
     def perform
-      defender.receive_damage!(damage_after_defense)
+      defender.receive_damage!(damage)
     end
 
     private
 
-    def damage_after_defense
+    def damage
       (attack_damage * defense_modifier) + scratch_damage
     end
 
