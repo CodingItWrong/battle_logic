@@ -14,8 +14,7 @@ module BattleLogic
     private
 
     def damage_after_defense
-      damage = attacker.attack_rating
-      min_zero(damage - defender.defense_rating)
+      min_zero(attacker.attack_rating - defender.defense_rating)
     end
 
     def min_zero(num)
