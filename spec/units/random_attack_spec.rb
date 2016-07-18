@@ -1,6 +1,10 @@
 RSpec.describe BattleLogic::RandomAttack do
   subject(:attack) { described_class.new(attacker: attacker,
                                          defender: defender) }
+  let(:attacker) { double }
+  let(:defender) { double }
+
+  it_behaves_like "an action"
 
   # attack_rating * (0.9..1.0) * ((256-defense_rating) / 256) + 1
 

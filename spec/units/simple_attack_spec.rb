@@ -1,6 +1,10 @@
 RSpec.describe BattleLogic::SimpleAttack do
   subject(:attack) { described_class.new(attacker: attacker,
                                          defender: defender) }
+  let(:attacker) { double }
+  let(:defender) { double }
+
+  it_behaves_like "an action"
 
   context "no defense" do
     let(:attacker) { double(attack_rating: 2) }
