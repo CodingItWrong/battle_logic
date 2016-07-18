@@ -1,5 +1,3 @@
-require "spec_helper"
-
 RSpec.describe "performing attacks" do
   context "direct damage algorithm" do
     context "one-hit kills" do

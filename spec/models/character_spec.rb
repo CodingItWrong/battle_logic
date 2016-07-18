@@ -1,5 +1,3 @@
-require "spec_helper"
-
 module BattleLogic
   RSpec.describe Character do
     it "has current health 1 by default" do
