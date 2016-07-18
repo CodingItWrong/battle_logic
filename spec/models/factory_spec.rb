@@ -22,7 +22,7 @@ RSpec.describe BattleLogic::Factory do
       end
       
       it "sets the attack action to SimpleAttack" do
-        expect(character.attack_action).to eq(SimpleAttack)
+        expect(character.attack_action).to eq(BattleLogic::SimpleAttack)
       end
     end
     
