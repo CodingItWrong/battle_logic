@@ -3,15 +3,10 @@ require "spec_helper"
 RSpec.describe "performing attacks" do
   context "direct damage algorithm" do
     context "one-hit kills" do
-      it "defaults characters to alive" do
-        goomba = BattleLogic::Character.new
-        expect(goomba).to be_alive
-      end
-
       it "allows simple characters to be killed in one hit" do
         mario = BattleLogic::Character.new
         goomba = BattleLogic::Character.new
-        SimpleAttack.new(attacker: mario, defender: goomba).perform
+        mario.attack(goomba)
         expect(goomba).to be_dead
       end
     end
@@ -19,15 +14,14 @@ RSpec.describe "performing attacks" do
     context "multi-hit kills" do
       let(:mario) { BattleLogic::Character.new }
       let(:bowser) { BattleLogic::Character.new(max_health: 3) }
-      let(:attack) { SimpleAttack.new(attacker: mario, defender: bowser) }
 
       it "does not kill the character after two hits" do
-        2.times { attack.perform }
+        2.times { mario.attack(bowser) }
         expect(bowser).to be_alive
       end
 
       it "kills the character after three hits" do
-        3.times { attack.perform }
+        3.times { mario.attack(bowser) }
         expect(bowser).to be_dead
       end
     end
@@ -35,15 +29,14 @@ RSpec.describe "performing attacks" do
     context "multiple points of damage" do
       let(:mario) { BattleLogic::Character.new(attack_rating: 2) }
       let(:bowser) { BattleLogic::Character.new(max_health: 3) }
-      let(:attack) { SimpleAttack.new(attacker: mario, defender: bowser) }
 
       it "does not kill the character after one hit" do
-        attack.perform
+        mario.attack(bowser)
         expect(bowser).to be_alive
       end
 
       it "kills the character after two hits" do
-        2.times { attack.perform }
+        2.times { mario.attack(bowser) }
         expect(bowser).to be_dead
       end
     end
@@ -51,15 +44,14 @@ RSpec.describe "performing attacks" do
     context "defense" do
       let(:mario) { BattleLogic::Character.new(attack_rating: 2) }
       let(:bowser) { BattleLogic::Character.new(max_health: 3, defense_rating: 1) }
-      let(:attack) { SimpleAttack.new(attacker: mario, defender: bowser) }
 
       it "does not kill the character after two hits" do
-        2.times { attack.perform }
+        2.times { mario.attack(bowser) }
         expect(bowser).to be_alive
       end
 
       it "kills the character after three hits" do
-        3.times { attack.perform }
+        3.times { mario.attack(bowser) }
         expect(bowser).to be_dead
       end
     end
@@ -68,29 +60,29 @@ RSpec.describe "performing attacks" do
   # attack_rating * (0.9..1.0) * ((256-defense_rating) / 256) + 1
   context "random damage algorithm" do
 
-    let(:attack) { RandomAttack.new(attacker: terra, defender: kefka) }
+    let(:random_attack) { RandomAttack }
 
     context "similarly-leveled" do
-      let(:terra) { BattleLogic::Character.new(attack_rating: 150) }
+      let(:terra) { BattleLogic::Character.new(attack_rating: 150, attack_action: random_attack) }
       let(:kefka) { BattleLogic::Character.new(defense_rating: 150, max_health: 9999) }
 
       it "random damage within a range" do
         10.times do
           expect {
-            attack.perform
-          }.to change { kefka.current_health }.by( a_value_between(-63, -56) )
+            terra.attack(kefka)
+          }.to change { kefka.current_health }.by( a_value_between(-64, -56) )
         end
       end
     end
 
     context "outleveled" do
-      let(:terra) { BattleLogic::Character.new(attack_rating: 150) }
+      let(:terra) { BattleLogic::Character.new(attack_rating: 150, attack_action: random_attack) }
       let(:kefka) { BattleLogic::Character.new(defense_rating: 256, max_health: 9999) }
 
       it "does 1 damage, not 0" do
         10.times do
           expect {
-            attack.perform
+            terra.attack(kefka)
           }.to change { kefka.current_health }.by(-1)
         end
       end
