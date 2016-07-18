@@ -1,5 +1,7 @@
 module BattleLogic
   RSpec.describe Character do
+    it_behaves_like "an attackable thing"
+
     it "has current health 1 by default" do
       expect(subject.current_health).to eq(1)
     end

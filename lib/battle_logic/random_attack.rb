@@ -1,5 +1,7 @@
 module BattleLogic
   class RandomAttack
+    MAX_DEFENSE_RATING = 256
+    
     def initialize(attacker:, defender:)
       @attacker = attacker
       @defender = defender
@@ -8,12 +10,12 @@ module BattleLogic
     attr_reader :attacker, :defender
 
     def perform
-      defender.receive_damage!(damage_after_defense)
+      defender.receive_damage!(damage)
     end
 
     private
 
-    def damage_after_defense
+    def damage
       (attack_damage * defense_modifier) + scratch_damage
     end
 
@@ -31,7 +33,11 @@ module BattleLogic
     end
 
     def defense_modifier
-      (256.0 - defender.defense_rating) / 256.0
+      (max_defense_rating.to_f - defender.defense_rating.to_f) / max_defense_rating.to_f
+    end
+    
+    def max_defense_rating
+      MAX_DEFENSE_RATING
     end
   end
 end
