@@ -1,11 +1,13 @@
 module BattleLogic
   class Character
-    attr_reader :max_health, :current_health, :attack_rating, :defense_rating
+    attr_reader *%i(max_health current_health attack_rating defense_rating
+                    attack_action)
 
     def initialize(opts = {})
       @current_health = @max_health = opts.fetch(:max_health, 1)
       @attack_rating = opts.fetch(:attack_rating, 1)
       @defense_rating = opts.fetch(:defense_rating, 0)
+      @attack_action = opts.fetch(:attack_action, SimpleAttack)
     end
 
     def alive?
@@ -16,19 +18,15 @@ module BattleLogic
       !alive?
     end
 
-    def receive_damage!(damage = 1)
-      @current_health = min_zero(current_health - damage_after_defense(damage))
+    def attack(defender)
+      attack_action.new(attacker: self, defender: defender).perform
     end
 
-    def attack(defender)
-      defender.receive_damage!(attack_rating)
+    def receive_damage!(damage = 1)
+      @current_health = min_zero(current_health - min_zero(damage))
     end
 
     private
-
-    def damage_after_defense(damage)
-      min_zero(damage - defense_rating)
-    end
 
     def min_zero(num)
       [num, 0].max

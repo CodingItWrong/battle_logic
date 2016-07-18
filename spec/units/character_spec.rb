@@ -1,6 +1,3 @@
-require "battle_logic"
-require "spec_helper"
-
 module BattleLogic
   RSpec.describe Character do
     it "has current health 1 by default" do
@@ -38,6 +35,18 @@ module BattleLogic
       subject = described_class.new(defense_rating:1)
       expect(subject.defense_rating).to eq(1)
     end
+    
+    it "can be configured with an attack action" do
+      attack = double(perform:nil)
+      attack_factory = double(new: attack)
+      subject = described_class.new(attack_action:attack_factory)
+      defender = described_class.new
+      
+      subject.attack(defender)
+      
+      expect(attack_factory).to have_received(:new).with(attacker: subject, defender: defender)
+      expect(attack).to have_received(:perform)
+    end
 
     it "is alive by default" do
       expect(subject).to be_alive
@@ -55,15 +64,9 @@ module BattleLogic
       expect(subject.current_health).to eq(1)
     end
 
-    it "subtracts defense rating from the damage it receives" do
-      subject = described_class.new(max_health:3, defense_rating: 1)
-      subject.receive_damage!(2)
-      expect(subject.current_health).to eq(2)
-    end
-
     it "does not allow damage less than zero" do
-      subject = described_class.new(max_health:3, defense_rating: 2)
-      subject.receive_damage!(1)
+      subject = described_class.new(max_health:3)
+      subject.receive_damage!(-1)
       expect(subject.current_health).to eq(3)
     end
 
@@ -75,9 +78,10 @@ module BattleLogic
 
     it "can attack" do
       subject = described_class.new(attack_rating:2)
-      defender = instance_double(described_class)
-      expect(defender).to receive(:receive_damage!).with(2)
+      defender = instance_double(described_class, defense_rating: 1, receive_damage!: nil)
       subject.attack(defender)
+
+      expect(defender).to have_received(:receive_damage!).with(1)
     end
   end
 end
