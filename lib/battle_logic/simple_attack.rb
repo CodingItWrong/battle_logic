@@ -1,11 +1,11 @@
 module BattleLogic
   class SimpleAttack
+    attr_reader :attacker, :defender
+
     def initialize(attacker:, defender:)
       @attacker = attacker
       @defender = defender
     end
-
-    attr_reader :attacker, :defender
 
     def perform
       defender.receive_damage!(damage_after_defense)

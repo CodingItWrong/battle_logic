@@ -2,12 +2,12 @@ module BattleLogic
   class RandomAttack
     MAX_DEFENSE_RATING = 256
     
+    attr_reader :attacker, :defender
+
     def initialize(attacker:, defender:)
       @attacker = attacker
       @defender = defender
     end
-
-    attr_reader :attacker, :defender
 
     def perform
       defender.receive_damage!(damage)
