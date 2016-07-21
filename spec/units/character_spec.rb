@@ -39,8 +39,8 @@ module BattleLogic
     end
     
     it "can be configured with an attack action" do
-      attack = double(perform:nil)
-      attack_factory = double(new: attack)
+      attack = double("attack", perform:nil)
+      attack_factory = double("attack_factory", new: attack)
       subject = described_class.new(attack_action:attack_factory)
       defender = described_class.new
       
