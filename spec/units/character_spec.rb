@@ -42,7 +42,7 @@ module BattleLogic
       attack = double("attack", perform:nil)
       attack_factory = double("attack_factory", new: attack)
       subject = described_class.new(attack_action:attack_factory)
-      defender = described_class.new
+      defender = double("defender")
       
       subject.attack(defender)
       
@@ -80,7 +80,7 @@ module BattleLogic
 
     it "can attack" do
       subject = described_class.new(attack_rating:2)
-      defender = instance_double(described_class, defense_rating: 1, receive_damage!: nil)
+      defender = double("defender", defense_rating: 1, receive_damage!: nil)
       subject.attack(defender)
 
       expect(defender).to have_received(:receive_damage!).with(1)
