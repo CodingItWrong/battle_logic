@@ -40,13 +40,13 @@ module BattleLogic
     
     it "can be configured with an attack action" do
       attack = double("attack", perform:nil)
-      attack_factory = double("attack_factory", new: attack)
-      subject = described_class.new(attack_action:attack_factory)
+      attack_class = double("attack_class", new: attack)
+      subject = described_class.new(attack_action:attack_class)
       defender = double("defender")
       
       subject.attack(defender)
       
-      expect(attack_factory).to have_received(:new).with(attacker: subject, defender: defender)
+      expect(attack_class).to have_received(:new).with(attacker: subject, defender: defender)
       expect(attack).to have_received(:perform)
     end
 
