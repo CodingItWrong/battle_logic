@@ -1,7 +1,7 @@
 module BattleLogic
   class Character
     attr_reader *%i(max_health current_health attack_rating defense_rating
-                    attack_action use_item_action)
+                    attack_action use_item_action inventory)
 
     def initialize(opts = {})
       @max_health = opts.fetch(:max_health, 1)
@@ -10,6 +10,7 @@ module BattleLogic
       @defense_rating = opts.fetch(:defense_rating, 0)
       @attack_action = opts.fetch(:attack_action, SimpleAttack)
       @use_item_action = opts.fetch(:use_item_action, UseItem)
+      @inventory = opts.fetch(:inventory, UnlimitedInventory.new)
     end
 
     def alive?
@@ -25,6 +26,7 @@ module BattleLogic
     end
     
     def use(item, on:)
+      raise "item not in user's inventory" if !inventory.contain?(item)
       use_item_action.new(item: item, target: on).perform
     end
 
@@ -35,7 +37,7 @@ module BattleLogic
     def receive_healing!(healing = 1)
       @current_health = max_max_health(current_health + min_zero(healing))
     end
-
+    
     private
 
     def min_zero(num)
