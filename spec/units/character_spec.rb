@@ -1,6 +1,7 @@
 module BattleLogic
   RSpec.describe Character do
     it_behaves_like "an attackable thing"
+    it_behaves_like "a healable thing"
 
     it "has current health 1 by default" do
       expect(subject.current_health).to eq(1)
@@ -26,6 +27,11 @@ module BattleLogic
     it "defaults the current health to the max health" do
       subject = described_class.new(max_health:2)
       expect(subject.current_health).to eq(2)
+    end
+    
+    it "can be configured with a current health less than the max health" do
+      subject = described_class.new(max_health: 3, current_health: 1)
+      expect(subject.current_health).to eq(1)
     end
 
     it "can be configured with an attack rating" do
@@ -77,6 +83,24 @@ module BattleLogic
       subject.receive_damage!(2)
       expect(subject.current_health).to eq(0)
     end
+    
+    it "gains health when it receives healing" do
+      subject = described_class.new(max_health: 10, current_health: 5)
+      subject.receive_healing!(2)
+      expect(subject.current_health).to eq(7)
+    end
+    
+    it "cannot gain more health than its max health" do
+      subject = described_class.new(max_health: 10, current_health: 5)
+      subject.receive_healing!(20)
+      expect(subject.current_health).to eq(10)
+    end
+    
+    it "cannot be healed a negative amount" do
+      subject = described_class.new(max_health: 10, current_health: 5)
+      subject.receive_healing!(-1)
+      expect(subject.current_health).to eq(5)
+    end
 
     it "can attack" do
       subject = described_class.new(attack_rating:2)
@@ -85,5 +109,19 @@ module BattleLogic
 
       expect(defender).to have_received(:receive_damage!).with(1)
     end
+    
+    it "can be configured with a use item action" do
+      use_item = double("use item", perform:nil)
+      use_item_class = double("use item class", new: use_item)
+      subject = described_class.new(use_item_action: use_item_class)
+      item = double("item")
+      target = double("target")
+      
+      subject.use(item, on: target)
+      
+      expect(use_item_class).to have_received(:new).with(item: item, target: target)
+      expect(use_item).to have_received(:perform)
+    end
+
   end
 end
