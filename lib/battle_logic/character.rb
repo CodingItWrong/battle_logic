@@ -26,8 +26,9 @@ module BattleLogic
     end
     
     def use(item, on:)
-      raise "item not in user's inventory" if !inventory.contain?(item)
+      raise "item not in user's inventory" unless inventory.contain?(item)
       use_item_action.new(item: item, target: on).perform
+      inventory.remove(item)
     end
 
     def receive_damage!(damage = 1)

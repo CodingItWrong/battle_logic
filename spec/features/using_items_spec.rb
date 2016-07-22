@@ -18,4 +18,15 @@ RSpec.describe "using items" do
     expect{ terra.use(potion, on: edgar) }.to raise_error "item not in user's inventory"
   end
   
+  it "is removed from the user's inventory when used" do
+    terra = factory.character
+    edgar = factory.character(current_health: 100, max_health: 200)
+    potion = BattleLogic::HealingItem.new(healing_amount:50)
+    
+    terra.inventory << potion
+    expect(terra.inventory.contain?(potion)).to eq(true)
+    terra.use(potion, on: edgar)
+    expect(terra.inventory.contain?(potion)).to eq(false)
+  end
+  
 end

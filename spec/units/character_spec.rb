@@ -113,7 +113,7 @@ module BattleLogic
     it "can be configured with a use item action" do
       use_item = double("use item", perform:nil)
       use_item_class = double("use item class", new: use_item)
-      inventory = double("inventory", contain?: true)
+      inventory = double("inventory", contain?: true, remove: nil)
       subject = described_class.new(use_item_action: use_item_class, inventory: inventory)
       item = double("item")
       target = double("target")
@@ -139,6 +139,20 @@ module BattleLogic
       target = double("target")
       
       expect{ subject.use(item, on: target) }.to raise_error "item not in user's inventory"
+    end
+    
+    it "removes items from the inventory when used" do
+      use_item = double("use item", perform:nil)
+      use_item_class = double("use item class", new: use_item)
+      inventory = double("inventory")
+      item = double("item")
+      target = double("target")
+      
+      allow(inventory).to receive(:contain?).and_return(true)
+      expect(inventory).to receive(:remove).with(item)
+      
+      subject = described_class.new(use_item_action: use_item_class, inventory: inventory)
+      subject.use(item, on: target)      
     end
   end
 end

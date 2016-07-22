@@ -8,6 +8,10 @@ module BattleLogic
       items << item
     end
     
+    def remove(item)
+      @items -= [item]
+    end
+    
     def contain?(item)
       items.include?(item)
     end

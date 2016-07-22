@@ -10,5 +10,12 @@ module BattleLogic
       subject << item
       expect(subject.contain?(item)).to be_truthy
     end
+    
+    it "can remove an item" do
+      item = double("item")
+      subject << item
+      subject.remove(item)
+      expect(subject.contain?(item)).to be_falsy
+    end
   end
 end 
