@@ -56,5 +56,37 @@ RSpec.describe BattleLogic::Factory do
         expect(character.inventory).to eq(inventory)
       end
     end
+    
+    context "shared inventory" do
+      let(:inventory1) { double("inventory1") }
+      let(:inventory2) { double("inventory2") }
+      let(:inventory_factory) { double("inventory_factory") }
+
+      let(:character1) { factory.character }
+      let(:character2) { factory.character }
+      
+      context "not configured for shared inventory" do
+        let(:factory) { described_class.new(inventory_factory: inventory_factory) }
+        
+        it "uses a different inventory for all characters" do
+          allow(inventory_factory).to receive(:new).and_return(inventory1, inventory2)
+          
+          expect(character1.inventory).to eq(inventory1)
+          expect(character2.inventory).to eq(inventory2)
+        end
+      end
+      
+      context "configured for shared inventory" do
+        let(:factory) { described_class.new(inventory_factory: inventory_factory,
+                                            shared_inventory: true) }
+        
+        it "uses the same inventory for all characters" do
+          allow(inventory_factory).to receive(:new).and_return(inventory1, inventory2)
+          
+          expect(character1.inventory).to eq(inventory1)
+          expect(character2.inventory).to eq(inventory1)
+        end
+      end
+    end
   end
 end

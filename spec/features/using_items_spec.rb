@@ -29,4 +29,17 @@ RSpec.describe "using items" do
     expect(terra.inventory.contain?(potion)).to eq(false)
   end
 
+  context "shared inventory" do
+    let(:factory) { BattleLogic::Factory.new(shared_inventory: true) }
+    
+    it "makes items usable by all characters" do
+      terra = factory.character
+      edgar = factory.character
+      potion = BattleLogic::HealingItem.new(healing_amount: 5)
+      
+      terra.inventory << potion
+      expect{ edgar.use(potion, on: edgar) }.to_not raise_error
+    end
+  end
+  
 end

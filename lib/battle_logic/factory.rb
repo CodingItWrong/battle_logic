@@ -1,10 +1,11 @@
 module BattleLogic
   class Factory
-    attr_reader :attack_action, :inventory_factory
+    attr_reader :attack_action, :inventory_factory, :shared_inventory
 
     def initialize(params = {})
       @attack_action = params.fetch(:attack_action, nil)
       @inventory_factory = params.fetch(:inventory_factory, UnlimitedInventory)
+      @shared_inventory = params.fetch(:shared_inventory, false)
     end
     
     def character(params = {})
@@ -25,6 +26,14 @@ module BattleLogic
     end
     
     def inventory
+      if shared_inventory
+        @inventory ||= new_inventory
+      else
+        new_inventory
+      end
+    end
+    
+    def new_inventory
       inventory_factory.new
     end
   end
