@@ -28,5 +28,5 @@ RSpec.describe "using items" do
     terra.use(potion, on: edgar)
     expect(terra.inventory.contain?(potion)).to eq(false)
   end
-  
+
 end

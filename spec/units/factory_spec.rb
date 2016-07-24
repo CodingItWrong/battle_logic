@@ -1,4 +1,6 @@
 RSpec.describe BattleLogic::Factory do
+  let(:factory) { described_class.new }
+
   describe "#character" do
     let(:fields) {{
       max_health: 3,
@@ -7,8 +9,6 @@ RSpec.describe BattleLogic::Factory do
     }}
 
     context "with no configured attack action" do
-      let(:factory) { described_class.new }
-
       subject(:character) { factory.character(fields) }
 
       it "constructs a character with passed-in fields" do
@@ -35,6 +35,26 @@ RSpec.describe BattleLogic::Factory do
       it "sets the attack action to the configured attack" do
         expect(character.attack_action).to eq(attack)
       end
-    end 
+    end
+    
+    context "with no configured inventory" do
+      subject(:character) { factory.character }
+
+      it "sets the inventory to an instance of UnlimitedInventory" do
+        expect(character.inventory).to be_kind_of(BattleLogic::UnlimitedInventory)
+      end
+    end
+    
+    context "with a configured inventory" do
+      let(:inventory) { double("inventory") }
+      let(:inventory_factory) { double("inventory_factory", new: inventory) }
+      let(:factory) { described_class.new(inventory_factory: inventory_factory) }
+
+      subject(:character) { factory.character }
+
+      it "sets the inventory to the configured inventory" do
+        expect(character.inventory).to eq(inventory)
+      end
+    end
   end
 end

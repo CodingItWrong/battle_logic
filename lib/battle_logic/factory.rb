@@ -1,9 +1,10 @@
 module BattleLogic
   class Factory
-    attr_reader :attack_action
+    attr_reader :attack_action, :inventory_factory
 
-    def initialize(attack_action: nil)
-      @attack_action = attack_action
+    def initialize(params = {})
+      @attack_action = params.fetch(:attack_action, nil)
+      @inventory_factory = params.fetch(:inventory_factory, UnlimitedInventory)
     end
     
     def character(params = {})
@@ -17,11 +18,14 @@ module BattleLogic
     end
     
     def default_params
-      if @default_params.nil?
-        @default_params = {}
-        @default_params[:attack_action] = attack_action unless attack_action.nil?
+      Hash.new.tap do |default_params|
+        default_params[:inventory] = inventory
+        default_params[:attack_action] = attack_action unless attack_action.nil?
       end
-      @default_params
+    end
+    
+    def inventory
+      inventory_factory.new
     end
   end
 end
