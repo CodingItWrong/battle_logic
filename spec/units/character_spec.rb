@@ -28,7 +28,7 @@ module BattleLogic
       subject = described_class.new(max_health:2)
       expect(subject.current_health).to eq(2)
     end
-    
+
     it "can be configured with a current health less than the max health" do
       subject = described_class.new(max_health: 3, current_health: 1)
       expect(subject.current_health).to eq(1)
@@ -43,15 +43,15 @@ module BattleLogic
       subject = described_class.new(defense_rating:1)
       expect(subject.defense_rating).to eq(1)
     end
-    
+
     it "can be configured with an attack action" do
       attack = double("attack", perform:nil)
       attack_class = double("attack_class", new: attack)
       subject = described_class.new(attack_action:attack_class)
       defender = double("defender")
-      
+
       subject.attack(defender)
-      
+
       expect(attack_class).to have_received(:new).with(attacker: subject, defender: defender)
       expect(attack).to have_received(:perform)
     end
@@ -67,7 +67,7 @@ module BattleLogic
 
       expect(defender).to have_received(:receive_damage!).with(1)
     end
-    
+
     context "receiving damage" do
       it "loses current health when it receives damage" do
         subject = described_class.new(max_health:3)
@@ -93,20 +93,20 @@ module BattleLogic
         expect(subject.current_health).to eq(0)
       end
     end
-    
+
     context "receiving healing" do
       it "gains health when it receives healing" do
         subject = described_class.new(max_health: 10, current_health: 5)
         subject.receive_healing!(2)
         expect(subject.current_health).to eq(7)
       end
-      
+
       it "cannot gain more health than its max health" do
         subject = described_class.new(max_health: 10, current_health: 5)
         subject.receive_healing!(20)
         expect(subject.current_health).to eq(10)
       end
-      
+
       it "cannot be healed a negative amount" do
         subject = described_class.new(max_health: 10, current_health: 5)
         subject.receive_healing!(-1)
@@ -115,7 +115,7 @@ module BattleLogic
     end
 
     context "using items" do
-      
+
       subject(:character) { described_class.new(use_item_action: use_item_class,
                                                 inventory: inventory) }
       let(:use_item_class) { double("use item class", new: use_item) }
@@ -124,7 +124,7 @@ module BattleLogic
       let(:item) { double("item") }
       let(:target) { double("target") }
       let(:use!) { subject.use(item, on: target) }
-    
+
       it "can be configured with a use item action" do
         use!
         expect(use_item_class).to have_received(:new).with(item: item, target: target)
@@ -135,7 +135,7 @@ module BattleLogic
         allow(inventory).to receive(:contain?).and_return(false)
         expect{ use! }.to raise_error "item not in user's inventory"
       end
-      
+
       it "removes items from the inventory when used" do
         use!
         expect(inventory).to have_received(:remove).with(item)

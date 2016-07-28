@@ -4,10 +4,10 @@ module BattleLogic
                                            target: target) }
     let(:item) { double("item") }
     let(:target) { double("target") }
-    
+
     it "instructs the item to be used on the target" do
       expect(item).to receive(:use_on).with(target)
       use_item.perform
     end
   end
-end 
+end

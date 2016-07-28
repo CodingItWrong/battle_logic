@@ -1,7 +1,7 @@
 RSpec.describe "performing attacks" do
   context "direct damage algorithm" do
     let(:factory) { BattleLogic::Factory.new }
-    
+
     context "one-hit kills" do
       it "allows simple characters to be killed in one hit" do
         mario = factory.character
