@@ -8,7 +8,7 @@ RSpec.describe BattleLogic::Factory do
       defense_rating: 1,
     }}
 
-    context 'with no configured attack action'"' do
+    context 'with no configured attack action' do
       subject(:character) { factory.character(fields) }
 
       it 'constructs a character with passed-in fields' do
