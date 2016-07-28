@@ -17,8 +17,9 @@ RSpec.describe BattleLogic::Factory do
         aggregate_failures do
           fields.each_pair do |field, expected_value|
             value = character.public_send(field)
-            expect(value).to eq(expected_value),
-              "Expected #{field} to be #{expected_value}, was #{value}"
+            expect(value).to(
+              eq(expected_value),
+              "Expected #{field} to be #{expected_value}, was #{value}")
           end
         end
       end
