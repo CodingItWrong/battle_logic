@@ -1,7 +1,7 @@
 module BattleLogic
   class Character
-    attr_reader *%i(max_health current_health attack_rating defense_rating
-                    attack_action use_item_action inventory)
+    attr_reader(*%i(max_health current_health attack_rating defense_rating
+                    attack_action use_item_action inventory))
 
     def initialize(opts = {})
       @max_health = opts.fetch(:max_health, 1)
