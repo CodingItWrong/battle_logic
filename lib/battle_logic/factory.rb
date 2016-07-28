@@ -19,7 +19,7 @@ module BattleLogic
     end
 
     def default_params
-      Hash.new.tap do |default_params|
+      {}.tap do |default_params|
         default_params[:inventory] = inventory
         default_params[:attack_action] = attack_action unless attack_action.nil?
       end
