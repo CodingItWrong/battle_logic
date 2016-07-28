@@ -1,7 +1,7 @@
 module BattleLogic
   class RandomAttack
     MAX_DEFENSE_RATING = 256
-    
+
     attr_reader :attacker, :defender
 
     def initialize(attacker:, defender:)
@@ -35,7 +35,7 @@ module BattleLogic
     def defense_modifier
       (max_defense_rating.to_f - defender.defense_rating.to_f) / max_defense_rating.to_f
     end
-    
+
     def max_defense_rating
       MAX_DEFENSE_RATING
     end

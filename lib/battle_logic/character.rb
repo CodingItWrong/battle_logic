@@ -24,7 +24,7 @@ module BattleLogic
     def attack(defender)
       attack_action.new(attacker: self, defender: defender).perform
     end
-    
+
     def use(item, on:)
       raise "item not in user's inventory" unless inventory.contain?(item)
       use_item_action.new(item: item, target: on).perform
@@ -34,17 +34,17 @@ module BattleLogic
     def receive_damage!(damage = 1)
       @current_health = min_zero(current_health - min_zero(damage))
     end
-    
+
     def receive_healing!(healing = 1)
       @current_health = max_max_health(current_health + min_zero(healing))
     end
-    
+
     private
 
     def min_zero(num)
       [num, 0].max
     end
-    
+
     def max_max_health(num)
       [num, max_health].min
     end
