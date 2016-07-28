@@ -2,7 +2,7 @@ module BattleLogic
   RSpec.describe UnlimitedInventory do
     it 'can receive an item' do
       item = double('item')
-      expect{ subject << item }.to_not raise_error
+      expect { subject << item }.to_not raise_error
     end
 
     it 'reports an item is in it if it has received it' do

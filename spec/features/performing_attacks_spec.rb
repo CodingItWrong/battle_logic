@@ -69,7 +69,7 @@ RSpec.describe 'performing attacks' do
         10.times do
           expect {
             terra.attack(kefka)
-          }.to change { kefka.current_health }.by( a_value_between(-64, -56) )
+          }.to change { kefka.current_health }.by(a_value_between(-64, -56))
         end
       end
     end
