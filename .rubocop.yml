@@ -4,5 +4,11 @@ AllCops:
   Exclude:
     - 'bin/**/*'
 
+Metrics/ModuleLength:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
