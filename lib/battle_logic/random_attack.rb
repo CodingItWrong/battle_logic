@@ -33,7 +33,8 @@ module BattleLogic
     end
 
     def defense_modifier
-      (max_defense_rating.to_f - defender.defense_rating.to_f) / max_defense_rating.to_f
+      (max_defense_rating.to_f - defender.defense_rating.to_f) /
+        max_defense_rating.to_f
     end
 
     def max_defense_rating
