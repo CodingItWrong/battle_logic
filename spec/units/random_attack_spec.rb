@@ -1,6 +1,7 @@
 RSpec.describe BattleLogic::RandomAttack do
-  subject(:attack) { described_class.new(attacker: attacker,
-                                         defender: defender) }
+  subject(:attack) do
+    described_class.new(attacker: attacker, defender: defender)
+  end
   let(:attacker) { double }
   let(:defender) { double }
 

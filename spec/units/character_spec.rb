@@ -116,8 +116,10 @@ module BattleLogic
 
     context 'using items' do
 
-      subject(:character) { described_class.new(use_item_action: use_item_class,
-                                                inventory: inventory) }
+      subject(:character) do
+        described_class.new(use_item_action: use_item_class,
+                            inventory: inventory)
+      end
       let(:use_item_class) { double('use item class', new: use_item) }
       let(:use_item) { double('use item', perform:nil) }
       let(:inventory) { double('inventory', contain?: true, remove: nil) }
