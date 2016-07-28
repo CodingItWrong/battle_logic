@@ -58,7 +58,6 @@ RSpec.describe 'performing attacks' do
   end
 
   context 'random damage algorithm' do
-
     let(:factory) do
       BattleLogic::Factory.new(attack_action: BattleLogic::RandomAttack)
     end

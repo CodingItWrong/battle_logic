@@ -116,7 +116,6 @@ module BattleLogic
     end
 
     context 'using items' do
-
       subject(:character) do
         described_class.new(use_item_action: use_item_class,
                             inventory: inventory)

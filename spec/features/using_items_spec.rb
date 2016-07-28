@@ -1,7 +1,6 @@
 RSpec.describe 'using items' do
   let(:factory) { BattleLogic::Factory.new }
 
-
   it 'can heal characters' do
     terra = factory.character
     edgar = factory.character(current_health: 100, max_health: 200)
@@ -42,5 +41,4 @@ RSpec.describe 'using items' do
       expect { edgar.use(potion, on: edgar) }.to_not raise_error
     end
   end
-
 end
