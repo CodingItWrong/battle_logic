@@ -1,8 +1,8 @@
-RSpec.describe "using items" do
+RSpec.describe 'using items' do
   let(:factory) { BattleLogic::Factory.new }
 
 
-  it "can heal characters" do
+  it 'can heal characters' do
     terra = factory.character
     edgar = factory.character(current_health: 100, max_health: 200)
     potion = BattleLogic::HealingItem.new(healing_amount:50)
@@ -29,10 +29,10 @@ RSpec.describe "using items" do
     expect(terra.inventory.contain?(potion)).to eq(false)
   end
 
-  context "shared inventory" do
+  context 'shared inventory' do
     let(:factory) { BattleLogic::Factory.new(shared_inventory: true) }
 
-    it "makes items usable by all characters" do
+    it 'makes items usable by all characters' do
       terra = factory.character
       edgar = factory.character
       potion = BattleLogic::HealingItem.new(healing_amount: 5)
