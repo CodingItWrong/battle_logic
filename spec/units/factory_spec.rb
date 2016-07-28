@@ -43,7 +43,8 @@ RSpec.describe BattleLogic::Factory do
       subject(:character) { factory.character }
 
       it 'sets the inventory to an instance of UnlimitedInventory' do
-        expect(character.inventory).to be_kind_of(BattleLogic::UnlimitedInventory)
+        expect(character.inventory)
+          .to be_kind_of(BattleLogic::UnlimitedInventory)
       end
     end
 
@@ -70,10 +71,13 @@ RSpec.describe BattleLogic::Factory do
       let(:character2) { factory.character }
 
       context 'not configured for shared inventory' do
-        let(:factory) { described_class.new(inventory_factory: inventory_factory) }
+        let(:factory) do
+          described_class.new(inventory_factory: inventory_factory)
+        end
 
         it 'uses a different inventory for all characters' do
-          allow(inventory_factory).to receive(:new).and_return(inventory1, inventory2)
+          allow(inventory_factory).to receive(:new)
+            .and_return(inventory1, inventory2)
 
           expect(character1.inventory).to eq(inventory1)
           expect(character2.inventory).to eq(inventory2)
@@ -87,7 +91,8 @@ RSpec.describe BattleLogic::Factory do
         end
 
         it 'uses the same inventory for all characters' do
-          allow(inventory_factory).to receive(:new).and_return(inventory1, inventory2)
+          allow(inventory_factory).to receive(:new)
+            .and_return(inventory1, inventory2)
 
           expect(character1.inventory).to eq(inventory1)
           expect(character2.inventory).to eq(inventory1)

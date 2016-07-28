@@ -52,7 +52,8 @@ module BattleLogic
 
       subject.attack(defender)
 
-      expect(attack_class).to have_received(:new).with(attacker: subject, defender: defender)
+      expect(attack_class).to have_received(:new)
+        .with(attacker: subject, defender: defender)
       expect(attack).to have_received(:perform)
     end
 
@@ -129,7 +130,8 @@ module BattleLogic
 
       it 'can be configured with a use item action' do
         use!
-        expect(use_item_class).to have_received(:new).with(item: item, target: target)
+        expect(use_item_class).to have_received(:new)
+          .with(item: item, target: target)
         expect(use_item).to have_received(:perform)
       end
 

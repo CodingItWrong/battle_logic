@@ -15,7 +15,8 @@ RSpec.describe BattleLogic::RandomAttack do
 
     it 'deals random damage within a range' do
       10.times do
-        expect(defender).to receive(:receive_damage!).with(a_value_between(56, 64))
+        expect(defender).to receive(:receive_damage!)
+          .with(a_value_between(56, 64))
         attack.perform
       end
     end

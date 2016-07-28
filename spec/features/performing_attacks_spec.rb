@@ -59,7 +59,9 @@ RSpec.describe 'performing attacks' do
 
   context 'random damage algorithm' do
 
-    let(:factory) { BattleLogic::Factory.new(attack_action: BattleLogic::RandomAttack) }
+    let(:factory) do
+      BattleLogic::Factory.new(attack_action: BattleLogic::RandomAttack)
+    end
 
     context 'similarly-leveled' do
       let(:terra) { factory.character(attack_rating: 150) }
