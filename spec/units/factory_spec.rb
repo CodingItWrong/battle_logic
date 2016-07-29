@@ -53,9 +53,9 @@ RSpec.describe BattleLogic::Factory do
     context 'with a configured inventory' do
       let(:inventory) { double('inventory') }
       let(:inventory_factory) { double('inventory_factory', new: inventory) }
-      let(:factory) do
+      let(:factory) {
         described_class.new(inventory_factory: inventory_factory)
-      end
+      }
 
       subject(:character) { factory.character }
 
@@ -87,10 +87,10 @@ RSpec.describe BattleLogic::Factory do
       end
 
       context 'configured for shared inventory' do
-        let(:factory) do
+        let(:factory) {
           described_class.new(inventory_factory: inventory_factory,
                               shared_inventory: true)
-        end
+        }
 
         it 'uses the same inventory for all characters' do
           allow(inventory_factory).to receive(:new)

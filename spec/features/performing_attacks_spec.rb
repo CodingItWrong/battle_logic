@@ -16,12 +16,16 @@ RSpec.describe 'performing attacks' do
       let(:bowser) { factory.character(max_health: 3) }
 
       it 'does not kill the character after two hits' do
-        2.times { mario.attack(bowser) }
+        2.times do
+          mario.attack(bowser)
+        end
         expect(bowser).to be_alive
       end
 
       it 'kills the character after three hits' do
-        3.times { mario.attack(bowser) }
+        3.times do
+          mario.attack(bowser)
+        end
         expect(bowser).to be_dead
       end
     end
@@ -36,7 +40,9 @@ RSpec.describe 'performing attacks' do
       end
 
       it 'kills the character after two hits' do
-        2.times { mario.attack(bowser) }
+        2.times do
+          mario.attack(bowser)
+        end
         expect(bowser).to be_dead
       end
     end
@@ -46,12 +52,16 @@ RSpec.describe 'performing attacks' do
       let(:bowser) { factory.character(max_health: 3, defense_rating: 1) }
 
       it 'does not kill the character after two hits' do
-        2.times { mario.attack(bowser) }
+        2.times do
+          mario.attack(bowser)
+        end
         expect(bowser).to be_alive
       end
 
       it 'kills the character after three hits' do
-        3.times { mario.attack(bowser) }
+        3.times do
+          mario.attack(bowser)
+        end
         expect(bowser).to be_dead
       end
     end
@@ -68,9 +78,8 @@ RSpec.describe 'performing attacks' do
 
       it 'random damage within a range' do
         10.times do
-          expect do
-            terra.attack(kefka)
-          end.to change { kefka.current_health }.by(a_value_between(-64, -56))
+          expect { terra.attack(kefka) }
+            .to change { kefka.current_health }.by(a_value_between(-64, -56))
         end
       end
     end

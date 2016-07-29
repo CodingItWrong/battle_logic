@@ -1,7 +1,7 @@
 RSpec.describe BattleLogic::SimpleAttack do
-  subject(:attack) do
+  subject(:attack) {
     described_class.new(attacker: attacker, defender: defender)
-  end
+  }
   let(:attacker) { double }
   let(:defender) { double }
 
